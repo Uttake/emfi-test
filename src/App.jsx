@@ -28,7 +28,7 @@ function App() {
         const loadingLeads = leads.map((lead) => lead.id);
         setIsLoadingLeads((prev) => [...prev, ...loadingLeads]);
 
-          setLeads((prevLeads) => [...prevLeads, ...leads]);
+        setLeads((prevLeads) => [...prevLeads, ...leads]);
         setLeads((prev) => [...prev, ...leads]);
 
         pages++;
