@@ -45,7 +45,6 @@ const LeadItem = ({ data, isOpen, setOpen }) => {
           <Spinner
             size="lg"
             speed="0.65s"
-            color="blue.500"
             color="#d946ef"
             emptyColor="gray.200"
             className="justify-self-center "
