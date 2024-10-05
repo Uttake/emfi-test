@@ -21,38 +21,38 @@ function App() {
 
       isFetching = true;
 
-      try {
-        const res = await getInfo(`/api/v4/leads?limit=${limit}&page=${pages}`);
-        const leads = res._embedded.leads;
+      const res = await getInfo(`/api/v4/leads?limit=${limit}&page=${pages}`);
+      const leads = res._embedded?.leads || [];
 
-        if (leads.length > 0) {
-          const loadingLeads = leads.map((lead) => lead.id);
-          setIsLoadingLeads((prev) => [...prev, ...loadingLeads]);
+      if (leads.length > 0) {
+        const loadingLeads = leads.map((lead) => lead.id);
+        setIsLoadingLeads((prev) => [...prev, ...loadingLeads]);
 
           setLeads((prevLeads) => [...prevLeads, ...leads]);
+        setLeads((prev) => [...prev, ...leads]);
 
-          pages++;
-        }
+        pages++;
+      }
 
-        if (!leads || leads.length === 0) {
-          clearInterval(intervalId);
-        }
-
-        setTimeout(() => {
-          setIsLoadingLeads((prev) =>
-            prev.filter((id) => !leads.some((lead) => lead.id === id))
-          );
-        }, 1000);
-
-        isFetching = false;
-      } catch (error) {
+      if (!leads || leads.length === 0) {
         clearInterval(intervalId);
       }
+
+      setTimeout(() => {
+        setIsLoadingLeads((prev) =>
+          prev.filter((id) => !leads.some((lead) => lead.id === id))
+        );
+      }, 1000);
+
+      isFetching = false;
     };
 
     getDataInfo().then(() => (intervalId = setInterval(getDataInfo, 1000)));
 
-    return () => clearInterval(intervalId);
+    return () => {
+      isFetching = false;
+      clearInterval(intervalId);
+    };
   }, []);
 
   leads.forEach((el) => (total += +el.price));

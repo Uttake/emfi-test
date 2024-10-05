@@ -11,6 +11,6 @@ export const getInfo = async (url) => {
       return res.data;
     }
   } catch (error) {
-    console.log(error);
+    throw new Error(`Ошибка при получении данных: ${error.message}`);
   }
 };

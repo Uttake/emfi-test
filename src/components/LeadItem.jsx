@@ -4,8 +4,6 @@ import { useState } from "react";
 import { Spinner } from "@chakra-ui/react";
 import { format, fromUnixTime } from "date-fns";
 import Circle from "./Circle";
-import { CSSTransition } from "react-transition-group";
-import "./leads.css";
 
 const checkTaskDate = (leadDate) => {
   const now = new Date().setHours(0, 0, 0, 0);
@@ -27,6 +25,7 @@ const LeadItem = ({ data, isOpen, setOpen }) => {
   const endDateUnix = fromUnixTime(data.closest_task_at);
   const endDate = format(endDateUnix, "dd.MM.yyyy");
   const handleClick = async () => {
+    if (isOpen?.id === id) return;
     setIsLoaded(true);
     const res = await getInfo(`/api/v4/leads/${id}`);
     if (res) {
@@ -47,6 +46,7 @@ const LeadItem = ({ data, isOpen, setOpen }) => {
             size="lg"
             speed="0.65s"
             color="blue.500"
+            color="#d946ef"
             emptyColor="gray.200"
             className="justify-self-center "
           />
